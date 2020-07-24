@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+        <meta charset="UTF-8"> 
+
+        <!-- Library -->
+        <script src="../../dist/GpServices-src.js"></script>
+        <!-- Function -->
+        <script>
+            /** Affichage de la reponse dans la balise (+ console) */
+            function print (response) {
+                var el = document.getElementById("result");
+                el.innerHTML = "<pre>" + JSON.stringify(response, null, 2) + "</pre>";
+                console.log(response);
+            };
+        </script>
+
+        <title>Service de geocodage</title>
+        <style>
+        #result {
+            padding: 5px;
+            width: 100%;
+            height: 200px;
+            box-shadow: 0 0 10px #999;
+            font-family: monospace;
+            overflow: scroll;
+        }
+        </style>
+    <style>
+        #optionUser {
+            width: 400px;
+            height: 500px;
+            float: left;
+        }
+        #optionOldGeocode {
+            width: 400px;
+            height: 500px;
+            float: left;
+        }
+        #optionNewGeocode {
+            width: 400px;
+            height: 500px;
+            float: left;
+        }
+        #optionObject {
+            width: 390px;
+            overflow: auto;
+            height: 383px;
+        }
+        #oldCode {
+            overflow: scroll;
+            height: 406px;
+        }
+        #newCode {
+            overflow: scroll;
+            height: 406px;
+        }
+        #resultDiv {
+            float: left;
+            width: 100%;
+        }
+        textarea {
+            resize: none;
+        }
+    </style>
+
+    </head>
+    <body>
+        <h1>Paramétrage du Service de geocodage</h1>
+
+        <h4>Indexes et filtres:</h4>
+        <pre>
+- CadastralParcel
+   * identifiant
+   * codeDepartement
+   * codeCommune
+   * nomCommune
+   * codeCommuneAbs
+   * codeArrondissement
+   * section
+   * numero
+   * feuille
+- PositionOfInterest
+   * type
+   * postalCode
+   * inseeCode
+- StreetAddress
+   * city
+   * postalCode
+   * inseeCode
+        </pre>
+        <div id="optionUser">
+            <h3>Ecrire ici l'objet de paramétrage du service:</h3>
+            <p>var option =</p>
+            </br>
+            <textarea id="optionObject">
+{
+    "index" : "CadastralParcel",
+    "filters": {
+        "codeDepartement": 75
+    },
+    "returnTrueGeometry": "true",
+    "query": "75102000AO0020"
+}</textarea>
+        </div>
+
+        <div id="optionOldGeocode">
+            <h3>Exemple de paramètrage de l'ancien service:</h3>
+            <p>var option =</p>
+            <div id="oldCode">
+            <pre>
+<code>{
+    "apiKey" : "jhyvi0fgmnuxvfv0zjzorvdn",
+    "filterOptions" : {
+        "type" : ["PositionOfInterest"],
+        "postalCode" : "41290"
+    },
+    "position": {
+        "x" : 1.3,
+        "y" : 47.8
+    },
+    "location" : "Saint-Mandé",
+    "maximumResponses" : 1
+}
+</code>
+            </pre>
+            </div>
+        </div>
+        <div id="optionNewGeocode">
+            <h3>Exemple de paramètrage du nouveau service:</h3>
+            <p>var option =</p>
+            <div id="oldCode">
+            <pre>
+<code>{
+    "index" : "StreetAddress",
+    "maximumResponses": 1,
+    "returnTrueGeometry": "true",
+    "filters": {
+        "postalCode": 94160,
+        "inseeCode": 94
+    },
+    "query" : "73 avenue de paris, 94160 Saint-Mandé"
+}
+</code>
+            </pre>
+            </div>
+        </div>
+
+        <div id="resultDiv">
+        </br>
+        <button type="button" id="geocodeButton">GO!</button>
+        </br>
+        </br>
+        <h3>Resultat retourné par Gp.Services.geocode(options):</h3>
+        </div>
+
+        <div id="result"></div>
+
+        <script type="text/javascript">
+        var geocodeAction = function () {
+            var optionText = document.getElementById("optionObject").value;
+            var optionObject = JSON.parse(optionText);
+
+            optionObject.onSuccess = function (response) {
+                print(response.locations);
+            };
+            optionObject.onFailure = function (error) {
+                print(error);
+            };
+
+            Gp.Services.geocode(optionObject);
+        };
+
+        document.getElementById("geocodeButton").onclick = geocodeAction;
+        </script>
+    </body>
+</html>

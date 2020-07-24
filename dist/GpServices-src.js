@@ -3991,7 +3991,7 @@ var GeocodeRequestFactory = {
 
 
 
-var DirectGeocodeReponseFactory = {
+var GeocodeReponseFactory = {
 
     /**
      * interface unique
@@ -4063,7 +4063,7 @@ var DirectGeocodeReponseFactory = {
     }
 };
 
-/* harmony default export */ __webpack_exports__["a"] = (DirectGeocodeReponseFactory);
+/* harmony default export */ __webpack_exports__["a"] = (GeocodeReponseFactory);
 
 
 /***/ }),
@@ -10558,7 +10558,7 @@ GeocodeParamREST.prototype = {
     getFilters : function () {
         var filters = {};
         for (var prop in this.filters) {
-            if (this.filters.hasOwnProperty(prop) && prop !== "type") {
+            if (this.filters.hasOwnProperty(prop)) {
                 filters["filters[" + prop + "]"] = this.filters[prop];
             }
         }
