@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+        <meta charset="UTF-8"> 
+
+        <!-- Library -->
+        <script src="../../dist/GpServices.js"></script>
+        <!-- Function -->
+        <script>
+            /** Affichage de la reponse dans la balise (+ console) */
+            function print (response) {
+                var el = document.getElementById("result");
+                el.innerHTML = "<pre>" + JSON.stringify(response, null, 2) + "</pre>";
+                console.log(response);
+            };
+        </script>
+
+        <title>Service d'isochrones</title>
+        <style>
+        #result {
+            padding: 5px;
+            width: 100%;
+            height: 200px;
+            box-shadow: 0 0 10px #999;
+            font-family: monospace;
+            overflow: scroll;
+        }
+        </style>
+        <style></style>
+
+    </head>
+    <body>
+        <h1>Utilisation du Service d'isochrones</h1>
+        <h2>Avec les paramètres obligatoires seulement</h2>
+        <pre>
+          <code>
+             var options = {
+                apiKey : "jhyvi0fgmnuxvfv0zjzorvdn",
+                onSuccess : function (response) {
+                    print(response);
+                },
+                position : {
+                   x : 2.35,
+                   y : 48.87
+                },
+                time : 200
+            };
+            Gp.Services.isoCurve(options);
+          </code>
+        </pre>
+
+        <div id="result"></div>
+
+        <script type="text/javascript">
+        var options = {
+            apiKey : "jhyvi0fgmnuxvfv0zjzorvdn",
+            onSuccess : function (response) {
+                print(response);
+            },
+            position : {
+               x : 2.35,
+               y : 48.87
+            },
+            time : 200
+        };
+        Gp.Services.isoCurve(options);
+        </script>
+    </body>
+</html>

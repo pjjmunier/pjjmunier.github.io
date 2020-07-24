@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+        <meta charset="UTF-8"> 
+
+        <!-- Library -->
+        <script src="../../dist/GpServices.js"></script>
+        <!-- Function -->
+        <script>
+            /** Affichage de la reponse dans la balise (+ console) */
+            function print (response) {
+                var el = document.getElementById("result");
+                el.innerHTML = "<pre>" + JSON.stringify(response, null, 2) + "</pre>";
+                console.log(response);
+            };
+        </script>
+
+        <title>Service de geocodage</title>
+        <style>
+        #result {
+            padding: 5px;
+            width: 100%;
+            height: 200px;
+            box-shadow: 0 0 10px #999;
+            font-family: monospace;
+            overflow: scroll;
+        }
+        </style>
+        <style></style>
+
+    </head>
+    <body>
+        <h1>Utilisation du Service de geocodage</h1>
+        <h2>Avec les paramètres obligatoires seulement</h2>
+        <pre>
+            <code>
+                var options = {
+                    index : "CadastralParcel", // CadastralParcel, PositionOfInterest, StreetAddress
+                    // maximumResponses: 1,
+                    // returnTrueGeometry: true,
+                    filters: {
+                        type: "CadastralParcel", // CadastralParcel, PositionOfInterest, StreetAddress
+                        postalCode: 94160,
+                        codeDepartement: 75,
+                    },
+                    onSuccess : function (response) {
+                        print(response.features);
+                    },
+                    onFailure : function (error) {
+                        print(error);
+                    },
+                    // query : "73 avenue de paris, 94160 Saint-Mandé"
+                    query : "75102000AO0020"
+                };
+                Gp.Services.geocode(options);
+              </code>
+        </pre>
+
+        <div id="result"></div>
+
+        <script type="text/javascript">
+        var options = {
+            position: {
+                lon: 48,
+                lat: 2
+            },
+            // maximumResponses: 1,
+            // returnTrueGeometry: true,
+            index : "CadastralParcel", // CadastralParcel, PositionOfInterest, StreetAddress
+            filters: {
+                // postalCode: 94160,
+                codeDepartement: 75,
+            },
+            onSuccess : function (response) {
+                print(response);
+            },
+            onFailure : function (error) {
+                print(error);
+            },
+            // query : "73 avenue de paris, 94160 Saint-Mandé"
+            query : "75102000AO0020"
+        };
+
+        //test patch ancien formalisme
+        //var options = {
+        //    apiKey : "jhyvi0fgmnuxvfv0zjzorvdn",
+        //    onSuccess : function (response) {
+        //    print(response.locations);
+        //    },
+        //    filterOptions : {
+        //       type : ["PositionOfInterest"],
+        //       postalCode : "41290"
+        //    },
+        //    position: {
+        //        x : 1.3,
+        //        y : 47.8
+        //    },
+        //    location : "Saint-Mandé",
+        //    maximumResponses : 1
+        //};
+
+        Gp.Services.geocode(options);
+        </script>
+    </body>
+</html>

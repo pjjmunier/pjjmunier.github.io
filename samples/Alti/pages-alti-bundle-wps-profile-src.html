@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+        <meta charset="UTF-8"> 
+
+        <!-- Library -->
+        <script src="../../dist/GpServices-src.js"></script>
+        <!-- Function -->
+        <script>
+            /** Affichage de la reponse dans la balise (+ console) */
+            function print (response) {
+                var el = document.getElementById("result");
+                el.innerHTML = "<pre>" + JSON.stringify(response, null, 2) + "</pre>";
+                console.log(response);
+            };
+        </script>
+
+        <title>Service de Calcul Altimétrique</title>
+        <style>
+        #result {
+            padding: 5px;
+            width: 100%;
+            height: 200px;
+            box-shadow: 0 0 10px #999;
+            font-family: monospace;
+            overflow: scroll;
+        }
+        </style>
+        <style></style>
+
+    </head>
+    <body>
+        <h1>Utilisation du Service de Calcul Altimétrique</h1>
+        <h2>Avec les paramètres WPS "Profil" en mode POST</h2>
+        <pre>
+          <code>
+              var options = {
+                apiKey : "jhyvi0fgmnuxvfv0zjzorvdn",
+                httpMethod : "POST",
+                protocol : "XHR",
+                onSuccess : function (response) {
+                    print(response.elevations);
+                },
+                // spécifique au service
+                positions : [{lon:1.25, lat:47.48}, {lon:1.35, lat:47.50}],
+                outputFormat : "xml", // json|xml
+                sampling : 3,
+                api : "WPS", // REST|WPS
+                zonly : false // false|true
+            };
+            Gp.Services.getAltitude(options);
+          </code>
+        </pre>
+
+        <div id="result"></div>
+
+        <script type="text/javascript">
+        var options = {
+            apiKey : "jhyvi0fgmnuxvfv0zjzorvdn",
+            httpMethod : "POST",
+            protocol : "XHR",
+            onSuccess : function (response) {
+                print(response.elevations);
+            },
+            // spécifique au service
+            positions : [{lon:1.25, lat:47.48}, {lon:1.35, lat:47.50}],
+            outputFormat : "xml", // json|xml
+            sampling : 3,
+            api : "WPS", // REST|WPS
+            zonly : false // false|true
+        };
+        Gp.Services.getAltitude(options);
+        </script>
+    </body>
+</html>
