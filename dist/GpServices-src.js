@@ -11216,7 +11216,7 @@ ReverseGeocode.prototype.circle2Json = function (circle) {
     return {
         type : "Circle",
         radius : circle.radius,
-        coordinates : [[circle.x, circle.y]]
+        coordinates : [circle.x, circle.y]
     };
 };
 
@@ -11232,8 +11232,8 @@ ReverseGeocode.prototype.polygon2Json = function (polygon) {
         coordinates : [[]]
     };
 
-    for (var coords in polygon) {
-        jsonGeom.coordinates[0].push([coords.x, coords.y]);
+    for (var i = 0; i < polygon.length; ++i) {
+        jsonGeom.coordinates[0].push([polygon[i].x, polygon[i].y]);
     }
 
     return jsonGeom;
