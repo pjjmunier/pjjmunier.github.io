@@ -10196,7 +10196,11 @@ function Geocode (options_) {
         for (var i = 0; i < filter.length; i++) {
             var key = filter[i];
             // on supprime les filtres vides
-            if (!options.filters[key]) {
+            if (typeof options.filters[key] === "undefined" || 
+                (typeof options.filters[key] === "object" && Object.keys(options.filters[key]).length === 0) ||
+                (typeof options.filters[key] === "string" && options.filters[key].length === 0) ||
+                (Array.isArray(options.filters[key]) && options.filters[key].length === 0)
+                ) {
                 delete this.options.filters[key];
             }
         }
@@ -11028,13 +11032,16 @@ function ReverseGeocode (options_) {
         this.options.index = options.index = "StreetAddress";
     }
 
-    // on teste pour chaque filtre, les conditions suivantes : null ou vide !
     if (options.filters) {
         var filter = Object.keys(options.filters);
         for (var i = 0; i < filter.length; i++) {
             var key = filter[i];
             // on supprime les filtres vides
-            if (!options.filters[key] || Object.keys(options.filters[key]).length === 0) {
+            if (typeof options.filters[key] === "undefined" || 
+                (typeof options.filters[key] === "object" && Object.keys(options.filters[key]).length === 0) ||
+                (typeof options.filters[key] === "string" && options.filters[key].length === 0) ||
+                (Array.isArray(options.filters[key]) && options.filters[key].length === 0)
+                ) {
                 delete this.options.filters[key];
             }
         }
