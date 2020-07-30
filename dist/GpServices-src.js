@@ -10172,7 +10172,7 @@ function Geocode (options_) {
     // appel du constructeur par heritage
     __WEBPACK_IMPORTED_MODULE_3__CommonService__["a" /* default */].apply(this, [options]);
 
-    if (!options.query) {
+    if (!options.hasOwnProperty("query")) {
         throw new Error(__WEBPACK_IMPORTED_MODULE_1__Utils_MessagesResources__["a" /* default */].getMessage("PARAM_MISSING", "query"));
     }
 
@@ -10196,11 +10196,11 @@ function Geocode (options_) {
         for (var i = 0; i < filter.length; i++) {
             var key = filter[i];
             // on supprime les filtres vides
-            if (typeof options.filters[key] === "undefined" || 
+            if (typeof options.filters[key] === "undefined" ||
                 (typeof options.filters[key] === "object" && Object.keys(options.filters[key]).length === 0) ||
                 (typeof options.filters[key] === "string" && options.filters[key].length === 0) ||
                 (Array.isArray(options.filters[key]) && options.filters[key].length === 0)
-                ) {
+            ) {
                 delete this.options.filters[key];
             }
         }
@@ -10583,6 +10583,8 @@ GeocodeParamREST.prototype = {
             return "parcel";
         } else if (this.index === "PositionOfInterest") {
             return "poi";
+        } else if (this.index === "location") {
+            return "location";
         }
         return this.index;
     },
@@ -11037,11 +11039,11 @@ function ReverseGeocode (options_) {
         for (var i = 0; i < filter.length; i++) {
             var key = filter[i];
             // on supprime les filtres vides
-            if (typeof options.filters[key] === "undefined" || 
+            if (typeof options.filters[key] === "undefined" ||
                 (typeof options.filters[key] === "object" && Object.keys(options.filters[key]).length === 0) ||
                 (typeof options.filters[key] === "string" && options.filters[key].length === 0) ||
                 (Array.isArray(options.filters[key]) && options.filters[key].length === 0)
-                ) {
+            ) {
                 delete this.options.filters[key];
             }
         }
@@ -11072,7 +11074,7 @@ ReverseGeocode.prototype.constructor = ReverseGeocode;
  * @return {Object} - options
  */
 ReverseGeocode.prototype.patchOptionConvertor = function (options_) {
-    const options = options_;
+    var options = options_;
 
     if (options.filterOptions) {
         this.logger.warn("The parameter 'filterOptions' is deprecated");
@@ -11086,6 +11088,7 @@ ReverseGeocode.prototype.patchOptionConvertor = function (options_) {
                     options.index = options.filterOptions.type;
                 }
             }
+            delete options.filterOptions.type;
         }
 
         if (options.filterOptions.bbox) {
@@ -11094,6 +11097,7 @@ ReverseGeocode.prototype.patchOptionConvertor = function (options_) {
                 // convertir la geometrie
                 options.searchGeometry = this.bbox2Json(options.filterOptions.bbox);
             }
+            delete options.filterOptions.bbox;
         }
 
         if (options.filterOptions.circle) {
@@ -11102,6 +11106,7 @@ ReverseGeocode.prototype.patchOptionConvertor = function (options_) {
                 // convertir la geometrie
                 options.searchGeometry = this.circle2Json(options.filterOptions.circle);
             }
+            delete options.filterOptions.circle;
         }
 
         if (options.filterOptions.polygon) {
@@ -11110,6 +11115,11 @@ ReverseGeocode.prototype.patchOptionConvertor = function (options_) {
                 // convertir la geometrie
                 options.searchGeometry = this.polygon2Json(options.filterOptions.polygon);
             }
+            delete options.filterOptions.polygon;
+        }
+
+        if (!options.filters && Object.keys(options.filterOptions).length > 0) {
+            options.filters = options.filterOptions;
         }
 
         delete options.filterOptions;
